@@ -5,6 +5,8 @@ class MyStyle {
   Color primartColor = Color(0xffd14500);
   Color lightColor = Color(0xffff7636);
 
+  Widget showProgress() => Center(child: CircularProgressIndicator());
+
   BoxDecoration boxDecoration() => BoxDecoration(
         color: Colors.white60,
         borderRadius: BorderRadius.circular(20),
@@ -46,7 +48,7 @@ class MyStyle {
         ),
       );
 
-      Widget titleH2Dark(String string) => Text(
+  Widget titleH2Dark(String string) => Text(
         string,
         style: TextStyle(
           fontSize: 16,
@@ -63,7 +65,7 @@ class MyStyle {
         ),
       );
 
-      Widget titleH3White(String string) => Text(
+  Widget titleH3White(String string) => Text(
         string,
         style: TextStyle(
           fontSize: 14,
