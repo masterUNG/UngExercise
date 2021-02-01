@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:ungexercies/states/list_product.dart';
 import 'package:ungexercies/utility/my_style.dart';
 import 'package:ungexercies/widget/show_catigory.dart';
 import 'package:ungexercies/widget/show_graphp.dart';
@@ -11,7 +12,7 @@ class MyService extends StatefulWidget {
 }
 
 class _MyServiceState extends State<MyService> {
-  List<String> titles = ['Catigory', 'Graphyic'];
+  List<String> titles = ['Catigory', 'Graphyic', 'List Product'];
   int index = 0;
   String nameLogin;
   Widget currentWidget = ShowCatigory();
@@ -37,6 +38,12 @@ class _MyServiceState extends State<MyService> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(Icons.sync),
+            onPressed: () => Navigator.pushNamed(context, '/synDataToFirebase'),
+          ),
+        ],
         title: Text(titles[index]),
         backgroundColor: MyStyle().primartColor,
       ),
@@ -48,6 +55,7 @@ class _MyServiceState extends State<MyService> {
                 buildUserAccountsDrawerHeader(),
                 buildMenuCatigory(),
                 buildMenuGraphyic(),
+                buildMenuListProduct(),
               ],
             ),
             buildSingOut(),
@@ -89,6 +97,23 @@ class _MyServiceState extends State<MyService> {
         color: MyStyle().darkColor,
       ),
       title: MyStyle().titleH2Dark(titles[1]),
+    );
+  }
+
+  ListTile buildMenuListProduct() {
+    return ListTile(
+      onTap: () {
+        setState(() {
+          currentWidget = ListProduct();
+        });
+        Navigator.pop(context);
+      },
+      leading: Icon(
+        Icons.breakfast_dining,
+        size: 36,
+        color: MyStyle().darkColor,
+      ),
+      title: MyStyle().titleH2Dark(titles[2]),
     );
   }
 
