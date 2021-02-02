@@ -40,6 +40,11 @@ class _MyServiceState extends State<MyService> {
       appBar: AppBar(
         actions: [
           IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () => Navigator.pushNamed(context, '/showCart'),
+          ),
+
+          IconButton(
             icon: Icon(Icons.sync),
             onPressed: () => Navigator.pushNamed(context, '/synDataToFirebase'),
           ),

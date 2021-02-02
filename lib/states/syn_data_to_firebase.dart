@@ -12,7 +12,7 @@ class SynDataToFirebase extends StatefulWidget {
 
 class _SynDataToFirebaseState extends State<SynDataToFirebase> {
   Future<Null> freshDataToFirebase(int maxPage) async {
-    for (var page = 1; page <= maxPage; page++) {
+    for (var page = 8; page <= maxPage; page++) {
       String path =
           'http://43.229.149.11:8080/SMLJavaRESTService/v3/api/product?page=$page&size=20';
 
@@ -29,13 +29,31 @@ class _SynDataToFirebaseState extends State<SynDataToFirebase> {
         for (var map in result['data']) {
           // print('map ====>> $map');
           ProductModel model = ProductModel.fromJson(map);
-          print(
-              'name Product ===>>> ${model.name} จำนวนราคา ${model.barcodes.length}');
+          print('code ==>> ${model.code}');
 
-          Map<String, dynamic> mapName = Map();
-          mapName['name'] = model.name;
+          String urlAPI =
+              'http://43.229.149.11:8080/SMLJavaRESTService/v3/api/product/${model.code}';
 
-          await Firebase.initializeApp().then((value) async {
+          await Dio()
+              .get(urlAPI, options: Options(headers: headers))
+              .then((value) async{
+            // print('value of image ==>> $value');
+            var result = value.data['data']['images'];
+
+            String urlImage = '';
+            if (result != null) {
+              // print('resule at ${model.code} ==> $result');
+              for (var item in result) {
+                urlImage = item['uri'];
+                print('ullImage at ${model.code} ==> $urlImage');
+              }
+            }
+
+            Map<String, dynamic> mapName = Map();
+            mapName['name'] = model.name;
+            mapName['urlImage'] = urlImage;
+
+             await Firebase.initializeApp().then((value) async {
             await FirebaseFirestore.instance
                 .collection('product')
                 .doc(model.code)
@@ -58,6 +76,12 @@ class _SynDataToFirebaseState extends State<SynDataToFirebase> {
               }
             });
           });
+
+
+
+          }); // end
+
+         
         }
       }).catchError((res) {
         print('Error on Dio ==> ${res.toString()}');
@@ -75,7 +99,7 @@ class _SynDataToFirebaseState extends State<SynDataToFirebase> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
-            onPressed: () => freshDataToFirebase(100),
+            onPressed: () => freshDataToFirebase(12),
             child: Text('This is SynData'),
           ),
         ],
