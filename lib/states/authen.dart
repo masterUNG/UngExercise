@@ -147,7 +147,7 @@ class _AuthenState extends State<Authen> {
   Container buildLogo() {
     return Container(
       width: screen * 0.35,
-      child: MyStyle().showLogo(),
+      child: MyStyle().showLogoFromWeb(),
     );
   }
 

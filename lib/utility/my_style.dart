@@ -20,6 +20,8 @@ class MyStyle {
       );
 
   Widget showLogo() => Image.asset('images/logo.png');
+  
+  Widget showLogoFromWeb()=>Image(image: NetworkImage('https://cdn0.iconfinder.com/data/icons/sports-59/512/Basketball-512.png'));
 
   Widget titleH1(String string) => Text(
         string,
